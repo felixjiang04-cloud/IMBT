@@ -1,6 +1,8 @@
-# ImBT - Betting Application Backend
+# ImBT v1 — Betting Application
 
-A comprehensive Node.js backend for the ImBT betting application with user authentication, betting functionality, leaderboards, and social features.
+A full-stack betting application: Node.js/Express backend with SQLite, and a vanilla JavaScript/HTML/CSS frontend. Features user authentication, betting games, leaderboards, and a friends system.
+
+> **Note:** This is the original v1. The project was later rewritten as a TypeScript monorepo with React, Prisma, and AI-verified 1v1 challenges — see [imbt3](https://github.com/felixjiang04-cloud/imbt3).
 
 ## 🚀 Features
 
