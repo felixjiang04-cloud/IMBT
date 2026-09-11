@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImBT - Profile</title>
+    <link rel="stylesheet" href="basic colour scheme.css">
+    <style>
+        /* Profile specific styles */
+        .profile-container {
+            display: flex;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-right: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h2 {
+            color: #e6ccff;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin-bottom: 15px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: rgba(128, 0, 255, 0.1);
+            border: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(128, 0, 255, 0.3);
+        }
+
+        .nav-menu a.active {
+            background: linear-gradient(45deg, #4B006E, #660099);
+            border-color: rgba(128, 0, 255, 0.5);
+        }
+
+        .nav-icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .profile-header {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4B006E, #660099);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(128, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(128, 0, 255, 0.3);
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .profile-title {
+            color: #e6ccff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            display: block;
+        }
+
+        .stat-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .profile-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .profile-section {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #e6ccff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .achievement {
+            background: rgba(128, 0, 255, 0.1);
+            border: 1px solid rgba(128, 0, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(128, 0, 255, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .achievement-name {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .achievement-desc {
+            color: #cccccc;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #e6ccff;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(51, 51, 51, 0.8);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: rgba(128, 0, 255, 0.8);
+            box-shadow: 0 0 15px rgba(128, 0, 255, 0.3);
+        }
+
+        .save-btn {
+            background: linear-gradient(45deg, #4B006E, #660099);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(128, 0, 255, 0.4);
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .game-stat {
+            background: rgba(128, 0, 255, 0.1);
+            border: 1px solid rgba(128, 0, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .game-stat:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .game-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .game-winrate {
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .game-bets {
+            color: #ffd700;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
+            }
+            
+            .profile-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .achievement-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <h2>ImBT Dashboard</h2>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+                <li><a href="betting page.html"><span class="nav-icon">💰</span>Place Bet</a></li>
+                <li><a href="#"><span class="nav-icon">📈</span>My Bets</a></li>
+                <li><a href="leaderboard.html"><span class="nav-icon">🏆</span>Leaderboard</a></li>
+                <li><a href="#"><span class="nav-icon">👥</span>Friends</a></li>
+                <li><a href="#"><span class="nav-icon">⚙️</span>Settings</a></li>
+                <li><a href="betting.html"><span class="nav-icon">🏠</span>Home</a></li>
+                <li><a href="login.html"><span class="nav-icon">🚪</span>Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-name">JohnDoe</div>
+                <div class="profile-title">Pro Gamer • Level 25</div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Total Bets</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-number">78%</span>
+                        <span class="stat-label">Win Rate</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-number">$12,450</span>
+                        <span class="stat-label">Total Winnings</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-number">24</span>
+                        <span class="stat-label">Active Bets</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Sections -->
+            <div class="profile-sections">
+                <!-- Achievements -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span>🏆</span>
+                        Achievements
+                    </div>
+                    <div class="achievement-grid">
+                        <div class="achievement">
+                            <span class="achievement-icon">🥇</span>
+                            <div class="achievement-name">First Win</div>
+                            <div class="achievement-desc">Win your first bet</div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">💰</span>
+                            <div class="achievement-name">High Roller</div>
+                            <div class="achievement-desc">Bet $1000+ in one go</div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔥</span>
+                            <div class="achievement-name">Hot Streak</div>
+                            <div class="achievement-desc">Win 10 bets in a row</div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🎯</span>
+                            <div class="achievement-name">Sharpshooter</div>
+                            <div class="achievement-desc">90%+ win rate</div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">👑</span>
+                            <div class="achievement-name">Champion</div>
+                            <div class="achievement-desc">Reach #1 on leaderboard</div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">⭐</span>
+                            <div class="achievement-name">Veteran</div>
+                            <div class="achievement-desc">100+ total bets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Statistics -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span>🎮</span>
+                        Game Statistics
+                    </div>
+                    <div class="game-stats">
+                        <div class="game-stat">
+                            <div class="game-name">CS:GO</div>
+                            <div class="game-winrate">85%</div>
+                            <div class="game-bets">45 bets</div>
+                        </div>
+                        <div class="game-stat">
+                            <div class="game-name">League of Legends</div>
+                            <div class="game-winrate">72%</div>
+                            <div class="game-bets">38 bets</div>
+                        </div>
+                        <div class="game-stat">
+                            <div class="game-name">Valorant</div>
+                            <div class="game-winrate">91%</div>
+                            <div class="game-bets">28 bets</div>
+                        </div>
+                        <div class="game-stat">
+                            <div class="game-name">Fortnite</div>
+                            <div class="game-winrate">68%</div>
+                            <div class="game-bets">22 bets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Settings -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span>⚙️</span>
+                        Profile Settings
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" value="JohnDoe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="john.doe@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" rows="3" placeholder="Tell us about yourself...">Pro gamer with a passion for competitive betting. Always looking for the next challenge!</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="favorite-game">Favorite Game</label>
+                            <select id="favorite-game">
+                                <option value="csgo">CS:GO</option>
+                                <option value="lol">League of Legends</option>
+                                <option value="valorant">Valorant</option>
+                                <option value="fortnite">Fortnite</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span>🔒</span>
+                        Security Settings
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" placeholder="Enter current password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm new password">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked> Enable Two-Factor Authentication
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked> Email notifications for bets
+                            </label>
+                        </div>
+                        <button type="submit" class="save-btn">Update Security</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

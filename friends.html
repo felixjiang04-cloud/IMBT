@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImBT - Friends</title>
+    <link rel="stylesheet" href="basic colour scheme.css">
+    <style>
+        /* Friends specific styles */
+        .friends-container {
+            display: flex;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-right: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h2 {
+            color: #e6ccff;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin-bottom: 15px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: rgba(128, 0, 255, 0.1);
+            border: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(128, 0, 255, 0.3);
+        }
+
+        .nav-menu a.active {
+            background: linear-gradient(45deg, #4B006E, #660099);
+            border-color: rgba(128, 0, 255, 0.5);
+        }
+
+        .nav-icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .friends-header {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .friends-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #e6ccff, #ffffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(51, 51, 51, 0.8);
+            color: white;
+            font-size: 1rem;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(128, 0, 255, 0.8);
+            box-shadow: 0 0 15px rgba(128, 0, 255, 0.3);
+        }
+
+        .search-btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4B006E, #660099);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(128, 0, 255, 0.4);
+        }
+
+        .friends-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .friend-tab {
+            padding: 10px 20px;
+            background: rgba(128, 0, 255, 0.1);
+            border: 1px solid rgba(128, 0, 255, 0.3);
+            border-radius: 25px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .friend-tab.active {
+            background: linear-gradient(45deg, #4B006E, #660099);
+            border-color: rgba(128, 0, 255, 0.6);
+        }
+
+        .friend-tab:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .friend-card {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(128, 0, 255, 0.2);
+            border-color: rgba(128, 0, 255, 0.6);
+        }
+
+        .friend-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .friend-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4B006E, #660099);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .friend-info h3 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .friend-info p {
+            color: #cccccc;
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+        }
+
+        .friend-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .friend-stat {
+            text-align: center;
+            padding: 10px;
+            background: rgba(128, 0, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .friend-stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffd700;
+            display: block;
+        }
+
+        .friend-stat-label {
+            color: #cccccc;
+            font-size: 0.8rem;
+        }
+
+        .friend-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .challenge-btn {
+            background: linear-gradient(45deg, #4B006E, #660099);
+            color: white;
+        }
+
+        .challenge-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(128, 0, 255, 0.4);
+        }
+
+        .message-btn {
+            background: rgba(128, 0, 255, 0.1);
+            color: #e6ccff;
+            border: 1px solid rgba(128, 0, 255, 0.3);
+        }
+
+        .message-btn:hover {
+            background: rgba(128, 0, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .remove-btn {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff00;
+            margin-left: auto;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .offline-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #666666;
+            margin-left: auto;
+        }
+
+        .friend-requests {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(128, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .requests-title {
+            color: #e6ccff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .request-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(128, 0, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .request-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .accept-btn {
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .accept-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        .decline-btn {
+            padding: 8px 15px;
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .decline-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .friends-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-input {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .friends-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .friend-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="friends-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <h2>ImBT Dashboard</h2>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+                <li><a href="betting page.html"><span class="nav-icon">💰</span>Place Bet</a></li>
+                <li><a href="#"><span class="nav-icon">📈</span>My Bets</a></li>
+                <li><a href="leaderboard.html"><span class="nav-icon">🏆</span>Leaderboard</a></li>
+                <li><a href="#" class="active"><span class="nav-icon">👥</span>Friends</a></li>
+                <li><a href="#"><span class="nav-icon">⚙️</span>Settings</a></li>
+                <li><a href="betting.html"><span class="nav-icon">🏠</span>Home</a></li>
+                <li><a href="login.html"><span class="nav-icon">🚪</span>Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="friends-header">
+                <h1>👥 Friends & Challenges</h1>
+                <p style="color: #e6ccff; font-size: 1.1rem; margin-bottom: 20px;">Connect with friends and challenge them to bets</p>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for friends...">
+                    <button class="search-btn">Search</button>
+                </div>
+                
+                <div class="friends-tabs">
+                    <div class="friend-tab active">All Friends</div>
+                    <div class="friend-tab">Online</div>
+                    <div class="friend-tab">Recent Activity</div>
+                </div>
+            </div>
+
+            <!-- Friend Requests -->
+            <div class="friend-requests">
+                <div class="requests-title">📨 Friend Requests (3)</div>
+                <div class="request-item">
+                    <div class="request-info">
+                        <div class="friend-avatar">SG</div>
+                        <div>
+                            <h3 style="color: #ffffff; margin: 0;">SkillGamer</h3>
+                            <p style="color: #cccccc; margin: 5px 0 0 0;">Wants to be your friend</p>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn">Accept</button>
+                        <button class="decline-btn">Decline</button>
+                    </div>
+                </div>
+                <div class="request-item">
+                    <div class="request-info">
+                        <div class="friend-avatar">BW</div>
+                        <div>
+                            <h3 style="color: #ffffff; margin: 0;">BetWinner</h3>
+                            <p style="color: #cccccc; margin: 5px 0 0 0;">Wants to be your friend</p>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn">Accept</button>
+                        <button class="decline-btn">Decline</button>
+                    </div>
+                </div>
+                <div class="request-item">
+                    <div class="request-info">
+                        <div class="friend-avatar">LP</div>
+                        <div>
+                            <h3 style="color: #ffffff; margin: 0;">LuckyPlayer</h3>
+                            <p style="color: #cccccc; margin: 5px 0 0 0;">Wants to be your friend</p>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn">Accept</button>
+                        <button class="decline-btn">Decline</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friends Grid -->
+            <div class="friends-grid">
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">GM</div>
+                        <div class="friend-info">
+                            <h3>GameMaster</h3>
+                            <p>Veteran Player</p>
+                        </div>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">82%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">189</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">CS</div>
+                        <div class="friend-info">
+                            <h3>ChampionSkill</h3>
+                            <p>Tournament Winner</p>
+                        </div>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">80%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">167</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">PB</div>
+                        <div class="friend-info">
+                            <h3>ProBet</h3>
+                            <p>Analytics Expert</p>
+                        </div>
+                        <div class="offline-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">78%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">145</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">VS</div>
+                        <div class="friend-info">
+                            <h3>VictorySeeker</h3>
+                            <p>Competitive Player</p>
+                        </div>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">76%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">198</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">SG</div>
+                        <div class="friend-info">
+                            <h3>SkillGamer</h3>
+                            <p>Esports Champion</p>
+                        </div>
+                        <div class="offline-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">89%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">203</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+
+                <div class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar">BW</div>
+                        <div class="friend-info">
+                            <h3>BetWinner</h3>
+                            <p>Strategy Master</p>
+                        </div>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="friend-stats">
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">87%</span>
+                            <span class="friend-stat-label">Win Rate</span>
+                        </div>
+                        <div class="friend-stat">
+                            <span class="friend-stat-value">178</span>
+                            <span class="friend-stat-label">Total Bets</span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn challenge-btn">Challenge</button>
+                        <button class="action-btn message-btn">Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

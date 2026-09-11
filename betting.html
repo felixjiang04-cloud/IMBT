@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImBT</title>
+    <style>
+        
+            
+        .center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Adjusts vertical centering */
+    text-align: center;
+    }
+        
+        body {
+            background-color: black;
+            color: purple;
+        }
+.top-right-buttons .signup-btn {
+    background-color: #4B006E; /* dark purple */
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.top-right-buttons .login-btn {
+    background-color: #444; /* grey */
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.top-right-buttons button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    font-size: 1em;
+    cursor: pointer;
+}
+        .top-right-buttons button:hover {
+            opacity: 0.8; /* Slightly dim the button on hover */
+        }   
+        .top-right-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000; /* Ensure it stays on top */
+        }
+</style>
+
+<!-- Add as the first element inside <body> -->
+<div class="top-right-buttons">
+    <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+    <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+</div>
+</head>
+<body>
+    <img src="logo.png" alt="Logo" style="position: absolute; top: 20px; left: 20px; height: 150px; width: auto; z-index: 100;">
+    <div class="center-content">
+        <h1><i>Welcome to the ImBT Page</i></h1>
+        <p> <big>Place your bets now!</big> <br> 
+            Here you can only rely on your OWN skills!<br>
+              💥 Challenge your friends. <br>
+            💰 Bet on your skills — not luck. <br>
+            Is it gambling if you know you will <big>WIN?</big>
+        </p>
+         <iframe width="560" height="315" src="https://www.youtube.com/embed/clSE0CK-lWA"
+        title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+    </div>
+</body>
+</html>
+

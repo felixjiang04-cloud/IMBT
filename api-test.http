@@ -1,0 +1,194 @@
+### ImBT API Testing
+### Use this file with REST Client extension in VS Code or similar tools
+
+@baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.data.token}}
+
+### 1. User Registration
+# @name signup
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "TestPass123"
+}
+
+### 2. User Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "TestPass123"
+}
+
+### 3. Get Current User
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{authToken}}
+
+### 4. Place a Bet (Coin Flip)
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 50.00,
+    "bet_type": "coin_flip"
+}
+
+### 5. Place a Bet (Dice Roll)
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 25.00,
+    "bet_type": "dice_roll"
+}
+
+### 6. Place a Bet (Number Guess)
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 10.00,
+    "bet_type": "number_guess"
+}
+
+### 7. Place a Bet (Color Pick)
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 30.00,
+    "bet_type": "color_pick"
+}
+
+### 8. Get Bet History
+GET {{baseUrl}}/betting/history
+Authorization: Bearer {{authToken}}
+
+### 9. Get Betting Statistics
+GET {{baseUrl}}/betting/stats
+Authorization: Bearer {{authToken}}
+
+### 10. Get User Profile
+GET {{baseUrl}}/users/profile
+Authorization: Bearer {{authToken}}
+
+### 11. Get User Statistics
+GET {{baseUrl}}/users/stats
+Authorization: Bearer {{authToken}}
+
+### 12. Get User Transactions
+GET {{baseUrl}}/users/transactions
+Authorization: Bearer {{authToken}}
+
+### 13. Get Global Leaderboard
+GET {{baseUrl}}/leaderboard/global
+
+### 14. Get Win Rate Leaderboard
+GET {{baseUrl}}/leaderboard/win-rate
+
+### 15. Get Winnings Leaderboard
+GET {{baseUrl}}/leaderboard/winnings
+
+### 16. Get Most Active Leaderboard
+GET {{baseUrl}}/leaderboard/most-active
+
+### 17. Get Leaderboard Statistics
+GET {{baseUrl}}/leaderboard/stats
+
+### 18. Get Friends List
+GET {{baseUrl}}/friends/list
+Authorization: Bearer {{authToken}}
+
+### 19. Get Friend Requests
+GET {{baseUrl}}/friends/requests
+Authorization: Bearer {{authToken}}
+
+### 20. Search for Users
+GET {{baseUrl}}/friends/search?q=test
+Authorization: Bearer {{authToken}}
+
+### 21. Send Friend Request
+POST {{baseUrl}}/friends/send-request
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "friend_username": "anotheruser"
+}
+
+### 22. Get Friends Activity
+GET {{baseUrl}}/friends/activity
+Authorization: Bearer {{authToken}}
+
+### 23. Update User Profile
+PUT {{baseUrl}}/users/profile
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "username": "updatedusername"
+}
+
+### 24. Change Password
+PUT {{baseUrl}}/users/change-password
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "current_password": "TestPass123",
+    "new_password": "NewPass123"
+}
+
+### 25. Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{authToken}}
+
+### Test with different bet amounts and types
+### Coin Flip with $100
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 100.00,
+    "bet_type": "coin_flip"
+}
+
+### Dice Roll with $75
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 75.00,
+    "bet_type": "dice_roll"
+}
+
+### Number Guess with $20
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 20.00,
+    "bet_type": "number_guess"
+}
+
+### Color Pick with $50
+POST {{baseUrl}}/betting/place-bet
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "amount": 50.00,
+    "bet_type": "color_pick"
+}
